@@ -8,22 +8,38 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function Explore() {
-    const url="https://www.omdbapi.com/?apikey=2d44c784&s=movie&type=movie"
+    let url="https://www.omdbapi.com/?apikey=2d44c784&s=movie&type=movie"
     const [lstMovies,setMovies]=useState([])
+    const [filter,setFilter]=useState('');
     useEffect(()=>{
-        fetchMovies(url)
-    },[])
+      if(filter!='' && filter!=undefined){
+        url=url.replace("s=movie","s="+filter)
+      }
+      else{
+     url="https://www.omdbapi.com/?apikey=2d44c784&s=movie&type=movie"
+
+      }
+      fetchMovies(url)
+    },[filter])
     async function fetchMovies(url){
         let res= await axios.get(url)
-        
+        if(res?.data?.Search){
+
+        setMovies(res.data.Search)
+        }
+        else{
+          setMovies([])
+        }
         //let data=await (f)
         //alert(JSON.stringify(res));
         //alert(JSON.stringify(res.data.Search));
-        setMovies(res.data.Search)
     }
   return (
     <div className="App1">
       <header className="App-header">
+            <input type="text" placeholder="Filter based on name" value={filter} onChange={(event)=>{setFilter(event.target.value)}}></input>
+            {filter? "Showing results for- '"+filter+"'"  : ""}
+            
             <div className="movie-grid">
                 {lstMovies.map((item) => (
                     <div className="movie-card" key={item.imdbID}>
@@ -33,14 +49,6 @@ function Explore() {
                     </div>
                 ))}
                 </div>
-            {/*{lstMovies.map((item,index)=>(
-
-
-                <div key={index}>
-                <div></div>
-                    <img src={item.Poster}></img><br/>
-                    {item.Title}</div>
-            ))}*/}
       </header>
     </div>
   );
