@@ -109,3 +109,52 @@ a{
   margin: 0 12px;
   color: #aaa;
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(0, 0, 0, 0.7);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+.modal {
+  position: relative;
+
+  width: 400px;
+  max-width: 90%;
+
+  background: white;
+  color: black;
+
+  padding: 30px;
+  border-radius: 12px;
+
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.modal img {
+  width: 200px;
+  display: block;
+  margin: 0 auto 20px;
+}
+
+.modal button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  border: none;
+  background: transparent;
+
+  font-size: 24px;
+  cursor: pointer;
+}

@@ -11,6 +11,7 @@ function Explore() {
     let url="https://www.omdbapi.com/?apikey=2d44c784&s=movie&type=movie"
     const [lstMovies,setMovies]=useState([])
     const [filter,setFilter]=useState('');
+    const [selectedMovie,setSelectedMovie]=useState(null)
     useEffect(()=>{
       if(filter!='' && filter!=undefined){
         url=url.replace("s=movie","s="+filter)
@@ -42,13 +43,42 @@ function Explore() {
             
             <div className="movie-grid">
                 {lstMovies.map((item) => (
-                    <div className="movie-card" key={item.imdbID}>
+                    <div className="movie-card" key={item.imdbID} value={item.Title} onClick={(event)=>{ 
+                      alert("cool"+item)
+                      setSelectedMovie(item);
+                     }}>
                     <img src={item.Poster} alt={item.Title} />
                     <h3>{item.Title}</h3>
                     <p>{item.Year}</p>
                     </div>
                 ))}
                 </div>
+
+          
+          {selectedMovie && 
+      <div className="modal-overlay" onClick={() => setSelectedMovie(null)}>
+          
+          <div
+            className="modal"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button onClick={() => setSelectedMovie(null)}>
+              ✕
+            </button>
+
+            <img
+              src={selectedMovie.Poster}
+              alt={selectedMovie.Title}
+            />
+
+            <h2>{selectedMovie.Title}</h2>
+            <p>Year: {selectedMovie.Year}</p>
+            <p>IMDb ID: {selectedMovie.imdbID}</p>
+          </div>
+
+        </div>
+          }
+
       </header>
     </div>
   );
